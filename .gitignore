@@ -1,0 +1,5 @@
+*.swp
+.build
+test/*.o
+test/*.xml
+test/testcoordinate
