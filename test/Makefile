@@ -5,8 +5,11 @@ CXXFLAGS = -g $(INCLUDES) -std=gnu++11
 OBJM = Coordinate.o MinValueDirection.o Map.o
 LINKFLAGS = -lcppunit
 
-testcoordinate: TestCoordinate.cpp $(OBJM)
+testwavefront: TestCoordinate.cpp $(OBJM)
 	$(CXX) $(CXXFLAGS) -o $@ TestCoordinate.cpp $(OBJM) $(LINKFLAGS) $(LINKFLAGSLOG4) $(LIBLOG)
+
+test: testwavefront
+	./testwavefront
 
 
 Coordinate.o: ../lib/Wavefront/Coordinate.cpp

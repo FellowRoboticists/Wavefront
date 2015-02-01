@@ -3,3 +3,4 @@
 test/*.o
 test/*.xml
 test/testcoordinate
+test/testwavefront
