@@ -72,6 +72,9 @@ char *WaveFrontFormatter::printCellValue(char *str, int cellValue) {
 class TestCoordinate : public CppUnit::TestFixture {
   CPPUNIT_TEST_SUITE(TestCoordinate);
   CPPUNIT_TEST(testOnTheGrid);
+  CPPUNIT_TEST(testDefaultConstructor);
+  CPPUNIT_TEST(testSetCoordinates);
+  CPPUNIT_TEST(testGetValues);
   CPPUNIT_TEST_SUITE_END();
    
   public:
@@ -80,6 +83,9 @@ class TestCoordinate : public CppUnit::TestFixture {
    
   protected:
     void testOnTheGrid(void);
+    void testDefaultConstructor(void);
+    void testSetCoordinates(void);
+    void testGetValues(void);
    
   private:
    
@@ -156,6 +162,25 @@ void TestCoordinate::setUp(void) {
  
 void TestCoordinate::tearDown(void) {
   delete mCoordinate;
+}
+
+void TestCoordinate::testDefaultConstructor(void) {
+  Coordinate c;
+  CPPUNIT_ASSERT(0 == c.getX());
+  CPPUNIT_ASSERT(0 == c.getY());
+}
+
+void TestCoordinate::testSetCoordinates(void) {
+  CPPUNIT_ASSERT(5 == mCoordinate->getX());
+  CPPUNIT_ASSERT(5 == mCoordinate->getY());
+  mCoordinate->setCoordinates(82, 13);
+  CPPUNIT_ASSERT(82 == mCoordinate->getX());
+  CPPUNIT_ASSERT(13 == mCoordinate->getY());
+}
+
+void TestCoordinate::testGetValues(void) {
+  CPPUNIT_ASSERT(5 == mCoordinate->getX());
+  CPPUNIT_ASSERT(5 == mCoordinate->getY());
 }
 
 void TestMinValueDirection::testDirectionSet(void) {
@@ -413,6 +438,60 @@ void TestMap::testPropagateWavefront(void) {
 }
 
 void TestMap::testGridLocationFromCenterRadius(void) {
+  Coordinate coord;
+  for (int angle=0; angle<360; angle += 30) {
+    mMap->gridLocationFromCenterRadius(2, 0, angle, 33.0 + 17.0, coord);
+    switch (angle) {
+      case 0:
+        CPPUNIT_ASSERT(4 == coord.getX());
+        CPPUNIT_ASSERT(0 == coord.getY());
+        break;
+      case 30:
+        CPPUNIT_ASSERT(3 == coord.getX());
+        CPPUNIT_ASSERT(1 == coord.getY());
+        break;
+      case 60:
+        CPPUNIT_ASSERT(3 == coord.getX());
+        CPPUNIT_ASSERT(1 == coord.getY());
+        break;
+      case 90:
+        CPPUNIT_ASSERT(2 == coord.getX());
+        CPPUNIT_ASSERT(2 == coord.getY());
+        break;
+      case 120:
+        CPPUNIT_ASSERT(1 == coord.getX());
+        CPPUNIT_ASSERT(1 == coord.getY());
+        break;
+      case 150:
+        CPPUNIT_ASSERT(1 == coord.getX());
+        CPPUNIT_ASSERT(1 == coord.getY());
+        break;
+      case 180:
+        CPPUNIT_ASSERT(0 == coord.getX());
+        CPPUNIT_ASSERT(0 == coord.getY());
+        break;
+      case 210:
+        CPPUNIT_ASSERT(1 == coord.getX());
+        CPPUNIT_ASSERT(-1 == coord.getY());
+        break;
+      case 240:
+        CPPUNIT_ASSERT(1 == coord.getX());
+        CPPUNIT_ASSERT(-1 == coord.getY());
+        break;
+      case 270:
+        CPPUNIT_ASSERT(2 == coord.getX());
+        CPPUNIT_ASSERT(-2 == coord.getY());
+        break;
+      case 300:
+        CPPUNIT_ASSERT(3 == coord.getX());
+        CPPUNIT_ASSERT(-1 == coord.getY());
+        break;
+      case 330:
+        CPPUNIT_ASSERT(3 == coord.getX());
+        CPPUNIT_ASSERT(-1 == coord.getY());
+        break;
+    }
+  }
 }
 
 void TestMap::setUp(void) {

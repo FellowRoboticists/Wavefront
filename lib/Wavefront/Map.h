@@ -47,7 +47,7 @@ class Map {
 
     int propagateWavefront(IWavefront *wavefront);
 
-    Coordinate *gridLocationFromCenterRadius(int x, int y, double angle, double radius);
+    void gridLocationFromCenterRadius(int x, int y, double angle, double radius, Coordinate& coordinat);
     boolean coordinateInRange(int x, int y);
     boolean nodeLessThanMinimum(int x, int y, int minimum);
 

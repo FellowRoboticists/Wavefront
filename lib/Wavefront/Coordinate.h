@@ -5,9 +5,13 @@ class Coordinate {
   
   public:
 
+    Coordinate();
     Coordinate(int x, int y);
     
     boolean onTheGrid(int maxX, int maxY);
+    void setCoordinates(int x, int y);
+    int getX();
+    int getY();
 
   private:
 

@@ -130,7 +130,7 @@ int Map::propagateWavefront(IWavefront *wavefront) {
   }
 }
 
-Coordinate *Map::gridLocationFromCenterRadius(int x, int y, double angle, double radius) {
+void Map::gridLocationFromCenterRadius(int x, int y, double angle, double radius, Coordinate& coordinate) {
   // Determine the physical location of the X, Y location
   double physX = x * mDimX + (mDimX / 2.0);
   double physY = y * mDimY + (mDimY / 2.0);
@@ -139,8 +139,8 @@ Coordinate *Map::gridLocationFromCenterRadius(int x, int y, double angle, double
   double targetY = physY + radius * sin(radAngle);
 
   // Hand back grid tuple
-  return new Coordinate((int)round((targetX - mDimX / 2.0) / mDimX),
-                        (int)round((targetY - mDimY / 2.0) / mDimY));
+  coordinate.setCoordinates((int)round((targetX - mDimX / 2.0) / mDimX),
+                            (int)round((targetY - mDimY / 2.0) / mDimY));
 }
 
 boolean Map::coordinateInRange(int x, int y) {
