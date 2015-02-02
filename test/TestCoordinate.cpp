@@ -20,6 +20,12 @@
 #include "IWavefront.h"
 #include "Map.h"
 
+/**
+ * Uncomment this if you want to dump the map for each
+ * iteration of the wavefront. Very handy for debugging
+ */
+// #define DUMP_WAVEFRONT
+
 using namespace CppUnit;
 using namespace std;
 
@@ -287,9 +293,13 @@ void TestMap::testPropagateWavefront(void) {
   mMap->placeValue(4, 4, WALL);
   mMap->placeValue(5, 4, WALL);
 
+#ifdef DUMP_WAVEFRONT
   WaveFrontFormatter wff;
 
   CPPUNIT_ASSERT(DOWN == mMap->propagateWavefront(&wff));
+#else
+  CPPUNIT_ASSERT(DOWN == mMap->propagateWavefront(NULL));
+#endif
 
   CPPUNIT_ASSERT(5 == mMap->getValue(0, 9));
   CPPUNIT_ASSERT(4 == mMap->getValue(1, 9));
@@ -441,9 +451,9 @@ int main(int argc, char* argv[]) {
   compileroutputter.write ();
 
   // Output XML for Jenkins CPPunit plugin
-  ofstream xmlFileOut("cppTestBasicMathResults.xml");
-  XmlOutputter xmlOut(&collectedresults, xmlFileOut);
-  xmlOut.write();
+  //ofstream xmlFileOut("cppTestBasicMathResults.xml");
+  //XmlOutputter xmlOut(&collectedresults, xmlFileOut);
+  //xmlOut.write();
 
   // return 0 if tests were successful
   return collectedresults.wasSuccessful() ? 0 : 1;
