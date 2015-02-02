@@ -14,6 +14,7 @@ class MinValueDirection {
 
     void setDirection(int direction);
     int getDirection();
+    void resetDirection();
 
   private:
 

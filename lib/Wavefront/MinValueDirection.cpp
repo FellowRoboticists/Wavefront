@@ -11,6 +11,11 @@ boolean MinValueDirection::directionSet() {
   return mDirection != mNullDirection;
 }
 
+void MinValueDirection::resetDirection() {
+  mDirection = 0;
+  mNullDirection = 0;
+}
+
 void MinValueDirection::setNodeValue(int value) {
   mNodeValue = value;
 }

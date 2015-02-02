@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include "Coordinate.h"
 #include "MinValueDirection.h"
+#include "IWavefront.h"
 #include "Map.h"
 
 #define PROPAGATE_ITERATIONS 50
@@ -44,34 +45,33 @@ int Map::getValue(int x, int y) {
   return value;
 }
 
-MinValueDirection *Map::minSurroundingNode(int x, int y) {
-  MinValueDirection *mvd = new MinValueDirection(RESET_MIN, NOTHING);
+void Map::minSurroundingNode(int x, int y, MinValueDirection &mvd) {
+  mvd.setNodeValue(RESET_MIN);
+  mvd.resetDirection();
 
   if (! coordinateInRange(x, y)) {
-    return mvd;
+    return;
   }
 
-  if (nodeLessThanMinimum(x + 1, y, mvd->getNodeValue())) {
-    mvd->setNodeValue(mMap[x + 1][y]);
-    mvd->setDirection(DOWN);
+  if (nodeLessThanMinimum(x + 1, y, mvd.getNodeValue())) {
+    mvd.setNodeValue(mMap[x + 1][y]);
+    mvd.setDirection(DOWN);
   }
 
-  if (nodeLessThanMinimum(x - 1, y, mvd->getNodeValue())) {
-    mvd->setNodeValue(mMap[x - 1][y]);
-    mvd->setDirection(UP);
+  if (nodeLessThanMinimum(x - 1, y, mvd.getNodeValue())) {
+    mvd.setNodeValue(mMap[x - 1][y]);
+    mvd.setDirection(UP);
   }
 
-  if (nodeLessThanMinimum(x, y + 1, mvd->getNodeValue())) {
-    mvd->setNodeValue(mMap[x][y + 1]);
-    mvd->setDirection(RIGHT);
+  if (nodeLessThanMinimum(x, y + 1, mvd.getNodeValue())) {
+    mvd.setNodeValue(mMap[x][y + 1]);
+    mvd.setDirection(RIGHT);
   }
 
-  if (nodeLessThanMinimum(x, y - 1, mvd->getNodeValue())) {
-    mvd->setNodeValue(mMap[x][y - 1]);
-    mvd->setDirection(LEFT);
+  if (nodeLessThanMinimum(x, y - 1, mvd.getNodeValue())) {
+    mvd.setNodeValue(mMap[x][y - 1]);
+    mvd.setDirection(LEFT);
   }
-
-  return mvd;
 }
 
 void Map::clear() {
@@ -94,8 +94,14 @@ void Map::unpropagate() {
   }
 }
 
-int Map::propagateWavefront() {
+int Map::propagateWavefront(IWavefront *wavefront) {
   unpropagate();
+  int v = 0;
+
+  // Show the state of the map prior to propagation
+  if (wavefront) {
+    wavefront->wave(*this);
+  }
 
   for (int i=0; i<PROPAGATE_ITERATIONS; i++) {
     for (int x=0; x<mSizeX; x++) {
@@ -104,13 +110,22 @@ int Map::propagateWavefront() {
           continue;
         }
 
-        MinValueDirection *mvd = minSurroundingNode(x, y);
-        if (mvd->getNodeValue() < RESET_MIN && mMap[x][y] == ROBOT) {
-          return mvd->getDirection();
-        } else if (mvd->getNodeValue() != RESET_MIN) {
-          mMap[x][y] = mvd->getNodeValue() + 1;
+        MinValueDirection mvd(RESET_MIN, NOTHING);
+        minSurroundingNode(x, y, mvd);
+        if (mvd.getNodeValue() < RESET_MIN && mMap[x][y] == ROBOT) {
+          if (wavefront) {
+            wavefront->wave(*this);
+          }
+          return mvd.getDirection();
+        } else if (mvd.getNodeValue() != RESET_MIN) {
+          mMap[x][y] = mvd.getNodeValue() + 1;
         }
       }
+    }
+    // Call the callback if registered for each step of
+    // the propagation
+    if (wavefront) {
+      wavefront->wave(*this);
     }
   }
 }
@@ -129,15 +144,11 @@ Coordinate *Map::gridLocationFromCenterRadius(int x, int y, double angle, double
 }
 
 boolean Map::coordinateInRange(int x, int y) {
-  return x >= 0 && mSizeX && y >= 0 && y < mSizeY;
+  return x >= 0 && x < mSizeX && y >= 0 && y < mSizeY;
 }
 
 boolean Map::nodeLessThanMinimum(int x, int y, int minimum) {
-  boolean lessThanMinimum = false;
-  if (coordinateInRange(x, y) && mMap[x][y] != NOTHING && mMap[x][y] < minimum) {
-    lessThanMinimum = true;
-  }
-  return lessThanMinimum;
+  return coordinateInRange(x, y) && mMap[x][y] != NOTHING && mMap[x][y] < minimum;
 }
 
 void Map::buildMap(int sizeX, int sizeY) {

@@ -23,6 +23,8 @@ class Coordinate;
 
 class MinValueDirection;
 
+class IWavefront;
+
 class Map {
 
   public:
@@ -37,23 +39,23 @@ class Map {
 
     int getValue(int x, int y);
 
-    MinValueDirection *minSurroundingNode(int x, int y);
+    void minSurroundingNode(int x, int y, MinValueDirection& mvd);
 
     void clear();
 
     void unpropagate();
 
-    int propagateWavefront();
+    int propagateWavefront(IWavefront *wavefront);
 
     Coordinate *gridLocationFromCenterRadius(int x, int y, double angle, double radius);
+    boolean coordinateInRange(int x, int y);
+    boolean nodeLessThanMinimum(int x, int y, int minimum);
 
   private:
 
     Map(int sizeX, int sizeY);
     Map(int sizeX, int sizeY, double dimX, double dimY);
-    boolean coordinateInRange(int x, int y);
 
-    boolean nodeLessThanMinimum(int x, int y, int minimum);
 
     void buildMap(int sizeX, int sizeY);
 
