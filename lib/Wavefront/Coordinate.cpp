@@ -4,24 +4,24 @@
 Coordinate::Coordinate() : Coordinate::Coordinate(0, 0) {
 }
 
-Coordinate::Coordinate(int x, int y) {
+Coordinate::Coordinate(uint8_t x, uint8_t y) {
   mX = x;
   mY = y;
 }
 
-void Coordinate::setCoordinates(int x, int y) {
+void Coordinate::setCoordinates(uint8_t x, uint8_t y) {
   mX = x;
   mY = y;
 }
 
-boolean Coordinate::onTheGrid(int maxX, int maxY) {
+boolean Coordinate::onTheGrid(uint8_t maxX, uint8_t maxY) {
   return mX >= 0 && mX < maxX && mY >= 0 && mY < maxY;
 }
 
-int Coordinate::getX() {
+uint8_t Coordinate::getX() {
   return mX;
 }
 
-int Coordinate::getY() {
+uint8_t Coordinate::getY() {
   return mY;
 }

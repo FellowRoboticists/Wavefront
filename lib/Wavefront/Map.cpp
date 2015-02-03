@@ -138,9 +138,12 @@ void Map::gridLocationFromCenterRadius(int x, int y, double angle, double radius
   double targetX = physX + radius * cos(radAngle);
   double targetY = physY + radius * sin(radAngle);
 
+  int newX = round((targetX - mDimX / 2.0) / mDimX);
+  int newY = round((targetY - mDimY / 2.0) / mDimY);
+
   // Hand back grid tuple
-  coordinate.setCoordinates((int)round((targetX - mDimX / 2.0) / mDimX),
-                            (int)round((targetY - mDimY / 2.0) / mDimY));
+  coordinate.setCoordinates((newX >= 0) ? (uint8_t)newX : 0xff,
+                            (newY >= 0) ? (uint8_t)newY : 0xff);
 }
 
 boolean Map::coordinateInRange(int x, int y) {

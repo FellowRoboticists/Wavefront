@@ -472,23 +472,23 @@ void TestMap::testGridLocationFromCenterRadius(void) {
         break;
       case 210:
         CPPUNIT_ASSERT(1 == coord.getX());
-        CPPUNIT_ASSERT(-1 == coord.getY());
+        CPPUNIT_ASSERT(coord.getY() & 0xff);
         break;
       case 240:
         CPPUNIT_ASSERT(1 == coord.getX());
-        CPPUNIT_ASSERT(-1 == coord.getY());
+        CPPUNIT_ASSERT(coord.getY() & 0xff);
         break;
       case 270:
         CPPUNIT_ASSERT(2 == coord.getX());
-        CPPUNIT_ASSERT(-2 == coord.getY());
+        CPPUNIT_ASSERT(coord.getY() & 0xff);
         break;
       case 300:
         CPPUNIT_ASSERT(3 == coord.getX());
-        CPPUNIT_ASSERT(-1 == coord.getY());
+        CPPUNIT_ASSERT(coord.getY() & 0xff);
         break;
       case 330:
         CPPUNIT_ASSERT(3 == coord.getX());
-        CPPUNIT_ASSERT(-1 == coord.getY());
+        CPPUNIT_ASSERT(coord.getY() & 0xff);
         break;
     }
   }

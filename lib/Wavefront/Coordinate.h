@@ -6,17 +6,17 @@ class Coordinate {
   public:
 
     Coordinate();
-    Coordinate(int x, int y);
+    Coordinate(uint8_t x, uint8_t y);
     
-    boolean onTheGrid(int maxX, int maxY);
-    void setCoordinates(int x, int y);
-    int getX();
-    int getY();
+    boolean onTheGrid(uint8_t maxX, uint8_t maxY);
+    void setCoordinates(uint8_t x, uint8_t y);
+    uint8_t getX();
+    uint8_t getY();
 
   private:
 
-    int mX;
-    int mY;
+    uint8_t mX;
+    uint8_t mY;
 
 };
 
