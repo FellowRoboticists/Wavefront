@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include "MinValueDirection.h"
 
-MinValueDirection::MinValueDirection(int value, int direction) {
+MinValueDirection::MinValueDirection(uint8_t value, uint8_t direction) {
   mNodeValue = value;
   mDirection = direction;
   mNullDirection = direction;
@@ -16,19 +16,19 @@ void MinValueDirection::resetDirection() {
   mNullDirection = 0;
 }
 
-void MinValueDirection::setNodeValue(int value) {
+void MinValueDirection::setNodeValue(uint8_t value) {
   mNodeValue = value;
 }
 
-int MinValueDirection::getNodeValue() {
+uint8_t MinValueDirection::getNodeValue() {
   return mNodeValue;
 }
 
-void MinValueDirection::setDirection(int direction) {
+void MinValueDirection::setDirection(uint8_t direction) {
   mDirection = direction;
 }
 
-int MinValueDirection::getDirection() {
+uint8_t MinValueDirection::getDirection() {
   return mDirection;
 }
 

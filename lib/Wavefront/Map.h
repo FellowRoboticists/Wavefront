@@ -1,23 +1,23 @@
 #ifndef _Map_h_
 #define _Map_h_
 
-#define NOTHING 0
-#define WALL 255
-#define GOAL 1
-#define ROBOT 254
+#define NOTHING (uint8_t)0
+#define WALL (uint8_t)255
+#define GOAL (uint8_t)1
+#define ROBOT (uint8_t)254
 
-#define UP 1
-#define RIGHT 2
-#define DOWN 3
-#define LEFT 4
+#define UP (uint8_t)1
+#define RIGHT (uint8_t)2
+#define DOWN (uint8_t)3
+#define LEFT (uint8_t)4
 
-#define RESET_MIN 250
+#define RESET_MIN (uint8_t)250
 
 #define DEFAULT_DIM_X 33.0
 #define DEFAULT_DIM_Y 33.0
 
-#define DEFAULT_X_SIZE 10
-#define DEFAULT_Y_SIZE 10
+#define DEFAULT_X_SIZE (uint8_t)10
+#define DEFAULT_Y_SIZE (uint8_t)10
 
 class Coordinate;
 

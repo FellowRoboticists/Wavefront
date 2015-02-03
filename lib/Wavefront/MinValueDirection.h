@@ -5,22 +5,22 @@
 class MinValueDirection {
 
   public:
-    MinValueDirection(int value, int direction);
+    MinValueDirection(uint8_t value, uint8_t direction);
 
     boolean directionSet();
 
-    void setNodeValue(int value);
-    int getNodeValue();
+    void setNodeValue(uint8_t value);
+    uint8_t getNodeValue();
 
-    void setDirection(int direction);
-    int getDirection();
+    void setDirection(uint8_t direction);
+    uint8_t getDirection();
     void resetDirection();
 
   private:
 
-    int mNodeValue;
-    int mDirection;
-    int mNullDirection;
+    uint8_t mNodeValue;
+    uint8_t mDirection;
+    uint8_t mNullDirection;
 };
 
 #endif
