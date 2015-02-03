@@ -31,39 +31,39 @@ class Map {
 
     Map();
 
-    int getSizeX();
+    uint8_t getSizeX();
 
-    int getSizeY();
+    uint8_t getSizeY();
 
-    void placeValue(int x, int y, int value);
+    void placeValue(uint8_t x, uint8_t y, uint8_t value);
 
-    int getValue(int x, int y);
+    uint8_t getValue(uint8_t x, uint8_t y);
 
-    void minSurroundingNode(int x, int y, MinValueDirection& mvd);
+    void minSurroundingNode(uint8_t x, uint8_t y, MinValueDirection& mvd);
 
     void clear();
 
     void unpropagate();
 
-    int propagateWavefront(IWavefront *wavefront);
+    uint8_t propagateWavefront(IWavefront *wavefront);
 
-    void gridLocationFromCenterRadius(int x, int y, double angle, double radius, Coordinate& coordinat);
-    boolean coordinateInRange(int x, int y);
-    boolean nodeLessThanMinimum(int x, int y, int minimum);
+    void gridLocationFromCenterRadius(uint8_t x, uint8_t y, double angle, double radius, Coordinate& coordinat);
+    boolean coordinateInRange(uint8_t x, uint8_t y);
+    boolean nodeLessThanMinimum(uint8_t x, uint8_t y, uint8_t minimum);
 
   private:
 
-    Map(int sizeX, int sizeY);
-    Map(int sizeX, int sizeY, double dimX, double dimY);
+    Map(uint8_t sizeX, uint8_t sizeY);
+    Map(uint8_t sizeX, uint8_t sizeY, double dimX, double dimY);
 
 
-    void buildMap(int sizeX, int sizeY);
+    void buildMap(uint8_t sizeX, uint8_t sizeY);
 
-    int mSizeX;
-    int mSizeY;
+    uint8_t mSizeX;
+    uint8_t mSizeY;
     double mDimX;
     double mDimY;
-    int mMap[DEFAULT_X_SIZE][DEFAULT_Y_SIZE];
+    uint8_t mMap[DEFAULT_X_SIZE][DEFAULT_Y_SIZE];
 
 };
 

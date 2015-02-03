@@ -9,10 +9,10 @@
 Map::Map() : Map::Map(DEFAULT_X_SIZE, DEFAULT_Y_SIZE) {
 }
 
-Map::Map(int sizeX, int sizeY) : Map(sizeX, sizeY, DEFAULT_DIM_X, DEFAULT_DIM_Y) {
+Map::Map(uint8_t sizeX, uint8_t sizeY) : Map(sizeX, sizeY, DEFAULT_DIM_X, DEFAULT_DIM_Y) {
 }
 
-Map::Map(int sizeX, int sizeY, double dimX, double dimY) {
+Map::Map(uint8_t sizeX, uint8_t sizeY, double dimX, double dimY) {
   mSizeX = sizeX;
   mSizeY = sizeY;
   mDimX = dimX;
@@ -21,15 +21,15 @@ Map::Map(int sizeX, int sizeY, double dimX, double dimY) {
   buildMap(sizeX, sizeY);
 }
 
-int Map::getSizeX() {
+uint8_t Map::getSizeX() {
   return mSizeX;
 }
 
-int Map::getSizeY() {
+uint8_t Map::getSizeY() {
   return mSizeY;
 }
 
-void Map::placeValue(int x, int y, int value) {
+void Map::placeValue(uint8_t x, uint8_t y, uint8_t value) {
   if (! coordinateInRange(x, y)) {
     return;
   }
@@ -37,15 +37,15 @@ void Map::placeValue(int x, int y, int value) {
   mMap[x][y] = value;
 }
 
-int Map::getValue(int x, int y) {
-  int value = NOTHING;
+uint8_t Map::getValue(uint8_t x, uint8_t y) {
+  uint8_t value = NOTHING;
   if (coordinateInRange(x, y)) {
     value = mMap[x][y];
   }
   return value;
 }
 
-void Map::minSurroundingNode(int x, int y, MinValueDirection &mvd) {
+void Map::minSurroundingNode(uint8_t x, uint8_t y, MinValueDirection &mvd) {
   mvd.setNodeValue(RESET_MIN);
   mvd.resetDirection();
 
@@ -75,8 +75,8 @@ void Map::minSurroundingNode(int x, int y, MinValueDirection &mvd) {
 }
 
 void Map::clear() {
-  for (int x=0; x<mSizeX; x++) {
-    for (int y=0; y<mSizeY; y++) {
+  for (uint8_t x=0; x<mSizeX; x++) {
+    for (uint8_t y=0; y<mSizeY; y++) {
       if (mMap[x][y] != ROBOT && mMap[x][y] != GOAL) {
         mMap[x][y] = NOTHING;
       }
@@ -85,8 +85,8 @@ void Map::clear() {
 }
 
 void Map::unpropagate() {
-  for (int x=0; x<mSizeX; x++) {
-    for (int y=0; y<mSizeY; y++) {
+  for (uint8_t x=0; x<mSizeX; x++) {
+    for (uint8_t y=0; y<mSizeY; y++) {
       if (mMap[x][y] != ROBOT && mMap[x][y] != GOAL && mMap[x][y] != WALL) {
         mMap[x][y] = NOTHING;
       }
@@ -94,18 +94,17 @@ void Map::unpropagate() {
   }
 }
 
-int Map::propagateWavefront(IWavefront *wavefront) {
+uint8_t Map::propagateWavefront(IWavefront *wavefront) {
   unpropagate();
-  int v = 0;
 
   // Show the state of the map prior to propagation
   if (wavefront) {
     wavefront->wave(*this);
   }
 
-  for (int i=0; i<PROPAGATE_ITERATIONS; i++) {
-    for (int x=0; x<mSizeX; x++) {
-      for (int y=0; y<mSizeY; y++) {
+  for (uint8_t i=0; i<PROPAGATE_ITERATIONS; i++) {
+    for (uint8_t x=0; x<mSizeX; x++) {
+      for (uint8_t y=0; y<mSizeY; y++) {
         if (mMap[x][y] == WALL || mMap[x][y] == GOAL) {
           continue;
         }
@@ -130,7 +129,7 @@ int Map::propagateWavefront(IWavefront *wavefront) {
   }
 }
 
-void Map::gridLocationFromCenterRadius(int x, int y, double angle, double radius, Coordinate& coordinate) {
+void Map::gridLocationFromCenterRadius(uint8_t x, uint8_t y, double angle, double radius, Coordinate& coordinate) {
   // Determine the physical location of the X, Y location
   double physX = x * mDimX + (mDimX / 2.0);
   double physY = y * mDimY + (mDimY / 2.0);
@@ -146,17 +145,17 @@ void Map::gridLocationFromCenterRadius(int x, int y, double angle, double radius
                             (newY >= 0) ? (uint8_t)newY : 0xff);
 }
 
-boolean Map::coordinateInRange(int x, int y) {
+boolean Map::coordinateInRange(uint8_t x, uint8_t y) {
   return x >= 0 && x < mSizeX && y >= 0 && y < mSizeY;
 }
 
-boolean Map::nodeLessThanMinimum(int x, int y, int minimum) {
+boolean Map::nodeLessThanMinimum(uint8_t x, uint8_t y, uint8_t minimum) {
   return coordinateInRange(x, y) && mMap[x][y] != NOTHING && mMap[x][y] < minimum;
 }
 
-void Map::buildMap(int sizeX, int sizeY) {
-  for (int x=0; x<mSizeX; x++) {
-    for (int y=0; y<mSizeY; y++) {
+void Map::buildMap(uint8_t sizeX, uint8_t sizeY) {
+  for (uint8_t x=0; x<mSizeX; x++) {
+    for (uint8_t y=0; y<mSizeY; y++) {
       mMap[x][y] = NOTHING;
     }
   }
